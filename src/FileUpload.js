@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css'
 import { BACKEND_URL, GET_FOLDER_CONTENT } from './Config'
 
-class ViewFiles extends Component {
+class FileUpload extends Component {
 
   constructor(props) {
       super(props);
@@ -11,9 +11,9 @@ class ViewFiles extends Component {
       }
   }
 
-  fetchFolderContents(folderId) {
+  fetchFolderContents(folderId = 'root') {
     //Get list of files
-    fetch(`${BACKEND_URL}${GET_FOLDER_CONTENT}?id=${folderId}`)
+    fetch(`${BACKEND_URL}/${GET_FOLDER_CONTENT}/${folderId}/`)
      .then(response => {
         if (response.ok) {
           return response.json();
@@ -21,12 +21,12 @@ class ViewFiles extends Component {
         throw new Error('Network response was not ok.');
       })
      .then(data => {
-       this.setState({files:data})
+       this.setState({files:data.json})
      });
   }
 
   componentDidMount() {
-    this.fetchFolderContents("");
+    this.fetchFolderContents();
   }
 
   searchField() {
@@ -101,4 +101,4 @@ class ViewFiles extends Component {
   }
 }
 
-export default ViewFiles;
+export default FileUpload;
